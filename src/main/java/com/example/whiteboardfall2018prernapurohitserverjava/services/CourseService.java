@@ -29,12 +29,11 @@ public class CourseService {
 	UserService userService;
 
 	List<Course> courses = null;
+	
 	@GetMapping("/api/user/{userId}/course")
 	public List<Course> findAllCourses(@PathVariable("userId") int userId,
 			HttpSession session) {
 		 User currentUser = (User)session.getAttribute("currentUser");
-		//System.out.println("currentUser"+ currentUser.getId());	
-		//User user = userService.findUserById(userId);
 	    return currentUser.getCourses();
 	   
 	}
@@ -53,7 +52,6 @@ public class CourseService {
 			@PathVariable("userId") int userId,
 			@PathVariable("cid") int courseId) {
 		
-		System.out.println("in findcoursebyid" + userId);
 		User user = userService.findUserById(userId);
 		List<Course> courses = user.getCourses();
 		for(Course course: courses) {
@@ -83,7 +81,7 @@ public class CourseService {
 			@PathVariable("cid") int courseId) {
 		
 		User user = userService.findUserById(userId);
-		//Course course = findCourseById(courseId, userId);
+		
 		List<Course> courses = user.getCourses();
 		Course courseToDel = null;
 		for(Course course: courses) {

@@ -2,10 +2,31 @@ package com.example.whiteboardfall2018prernapurohitserverjava.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
 public class Topic {
-	private int id = User.autoIncrement++;//(int)(Math.random() * Integer.MAX_VALUE);
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
 	private String title;
+	@ManyToOne
+	@JsonIgnore
+	private Lesson lesson;
+	public Lesson getLesson() {
+		return lesson;
+	}
+	public void setLesson(Lesson lesson) {
+		this.lesson = lesson;
+	}
+	@OneToMany(mappedBy="topic")
 	private List<Widget> widgets = new ArrayList<Widget>();
 	
 	public List<Widget> getWidgets() {

@@ -1,14 +1,28 @@
 package com.example.whiteboardfall2018prernapurohitserverjava.models;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
 public class Widget {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	
-	private int id = (int)(Math.random() * Integer.MAX_VALUE);
+	private int id;
 	private String title;
+	@ManyToOne()
+	@JsonIgnore
+	private Topic topic;
+	public Topic getTopic() {
+		return topic;
+	}
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+	
 	public Widget() {}
 	public Widget(String title) {
 		this.title = title;

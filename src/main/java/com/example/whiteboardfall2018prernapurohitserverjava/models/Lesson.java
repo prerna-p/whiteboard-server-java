@@ -2,10 +2,20 @@ package com.example.whiteboardfall2018prernapurohitserverjava.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+@Entity
 public class Lesson {
-	private int id = User.autoIncrement++;//(int)(Math.random() * Integer.MAX_VALUE);
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
 	private String title;
+	@OneToMany(mappedBy="lesson")
 	private List<Topic> topics = new ArrayList<Topic>();
 	public List<Topic> getTopics() {
 		return topics;

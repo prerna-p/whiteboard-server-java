@@ -14,9 +14,10 @@ import com.example.whiteboardfall2018prernapurohitserverjava.models.Topic;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Widget;
 import com.example.whiteboardfall2018prernapurohitserverjava.repositories.WidgetRepository;
+import com.example.whiteboardfall2018prernapurohitserverjava.repositories.TopicRepository;
 
 @RestController
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
 public class WidgetService {
 	@Autowired
 	UserService userService;
@@ -24,6 +25,16 @@ public class WidgetService {
 	@Autowired
 	WidgetRepository widgetRepository;
 	
+	@Autowired
+	TopicRepository topicRepository;
+	
+	@GetMapping("/api/topic/{topicId}/widget")
+	public List<Widget> findWidgetsForTopic(
+			@PathVariable("topicId") int topicId) {
+		return (List<Widget>)
+				topicRepository.findById(topicId)
+				.get().getWidgets();
+	}
 	
 	@GetMapping("/api/widget")
 	public List<Widget> findAllWidgets() {

@@ -20,13 +20,11 @@ import com.example.whiteboardfall2018prernapurohitserverjava.models.Module;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
 
 @RestController
-//@CrossOrigin(origins="*")
 @CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
 public class LessonService {
 	@Autowired
 	UserService userService;
 	int userId,courseId,moduleId;
-
 	
 	@GetMapping("/api/course/{cid}/module/{mid}/lesson")
 	public List<Lesson> findLessonsForCourseId(
@@ -114,16 +112,15 @@ public class LessonService {
 			for(Module module : course.getModules()) {
 				for(Lesson lesson : module.getLessons()) {
 					if(lesson.getId() == lessonId) {
-						old = lesson;
+						lesson.setTitle(newLesson.getTitle());
 						myLessons = module.getLessons();
+						return module.getLessons();
 					}
 						
 				}
 			}
 		}
 		
-		myLessons.remove(old);
-		myLessons.add(newLesson);
 		return myLessons;
 		
 	}
