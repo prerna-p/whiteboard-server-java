@@ -13,7 +13,7 @@ import com.example.whiteboardfall2018prernapurohitserverjava.models.Module;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Topic;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Widget;
-import com.example.whiteboardfall2018serverjava.repositories.WidgetRepository;
+import com.example.whiteboardfall2018prernapurohitserverjava.repositories.WidgetRepository;
 
 @RestController
 @CrossOrigin(origins="*")
@@ -23,6 +23,8 @@ public class WidgetService {
 	
 	@Autowired
 	WidgetRepository widgetRepository;
+	
+	
 	@GetMapping("/api/widget")
 	public List<Widget> findAllWidgets() {
 		return (List<Widget>) widgetRepository.findAll();
