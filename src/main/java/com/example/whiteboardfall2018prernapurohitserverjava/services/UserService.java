@@ -20,25 +20,34 @@ import com.example.whiteboardfall2018prernapurohitserverjava.models.Lesson;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Module;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Topic;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
+import com.example.whiteboardfall2018prernapurohitserverjava.models.Widget;
 
 @RestController
 //@CrossOrigin(origins="*")
 @CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
 public class UserService {
 	
-	
 	HttpSession newSession;
-	
 	static List<User> users = new ArrayList<User>();
 	static String[] usernames    = {"alice", "bob", "charlie"};
 	static String[] courseTitles = {"cs5200", "cs5610", "cs5500"};
 	static String[] moduleTitles = {"Module 1", "Module 2"};
 	static String[] lessonTitles = {"lesson 1", "lesson 2"};
 	static String[] topicTitles = {"topic 1", "topic 2","topic 3"};
+	static String[] widgetTitles = {"widget 1", "widget 2"};
+	
 	{
+		List<Widget> widgets = new ArrayList<Widget>();
+		for(String widgetTitle : widgetTitles) {
+			widgets.add(new Widget(widgetTitle));
+		}
 		List<Topic> topics = new ArrayList<Topic>();
 		for(String topicTitle : topicTitles) {
-			topics.add(new Topic(topicTitle));
+			Topic topic = new Topic(topicTitle);
+			if(topicTitle.equals("topic 1")) {
+				topic.setWidgets(widgets);
+			}
+			topics.add(topic);
 		}
 		List<Lesson> lessons = new ArrayList<Lesson>();
 		for(String lessonTitle : lessonTitles) {
@@ -64,6 +73,7 @@ public class UserService {
 			}
 			courses.add(course);
 		}
+		
 		for(String username: usernames) {
 			User user = new User(username);
 			if(username.equals("alice")) {
@@ -115,7 +125,6 @@ public class UserService {
 	@GetMapping("/api/profile")
 	public User profile(HttpSession session, HttpServletRequest request) {
 		User currentUser = (User)newSession.getAttribute("currentUser");
-		//System.out.println(currentUser);
 		return currentUser;
 	}
 	
@@ -129,8 +138,7 @@ public class UserService {
 			@RequestBody User credentials,
 			HttpSession session) {
 	 for (User user : users) {
-	  if( user.getUsername().equals(credentials.getUsername())
-	   /*|| user.getPassword().equals(credentials.getPassword())*/) {
+	  if( user.getUsername().equals(credentials.getUsername())) {
 	    session.setAttribute("currentUser", user);
 	    newSession = session;
 	    return user;
