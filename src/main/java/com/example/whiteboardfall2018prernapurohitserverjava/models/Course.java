@@ -3,13 +3,21 @@ package com.example.whiteboardfall2018prernapurohitserverjava.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Course {
-	  private int id = User.autoIncrement++;//(int)(Math.random() * Integer.MAX_VALUE);
-	  private String title;
-	  private List<Module> modules = new ArrayList<Module>();
-	  public Course(String title) {
-		  this.title = title;
-	  }
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	private String title;
+	private List<Module> modules = new ArrayList<Module>();
+	public Course(String title) {
+		this.title = title;
+	 }
 	public Course(int i, String string) {
 		id = i; title = string;
 	}

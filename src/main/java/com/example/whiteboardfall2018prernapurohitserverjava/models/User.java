@@ -3,9 +3,16 @@ package com.example.whiteboardfall2018prernapurohitserverjava.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class User {
-	public static int autoIncrement = 0;
-	private int id = autoIncrement++;//(int)(Math.random() * Integer.MAX_VALUE);
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
 	private String username;
 	private String password;
 	private String firstName;
