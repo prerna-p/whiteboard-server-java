@@ -20,6 +20,7 @@ import com.example.whiteboardfall2018prernapurohitserverjava.models.Module;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Topic;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
 
+import com.example.whiteboardfall2018prernapurohitserverjava.repositories.LessonRepository;
 import com.example.whiteboardfall2018prernapurohitserverjava.repositories.TopicRepository;
 
 @RestController
@@ -33,7 +34,12 @@ public class TopicService {
 	public List<Topic> findAllTopics() {
 		return (List<Topic>) topicRepository.findAll();
 	}
-	
+	@Autowired
+	LessonRepository lessonRepository;
+	@GetMapping("/api/lesson/{lessonId}/topic")
+	public List<Topic> findTopicsForLesson(@PathVariable("lessonId") int lessonId) {
+		return (List<Topic>) lessonRepository.findById(lessonId).get().getTopics();
+	}
 	int userId, courseId, moduleId, lessonId;
 	
 	@GetMapping("/api/course/{courseId}/module/{moduleId}/lesson/{lessonId}/topic")

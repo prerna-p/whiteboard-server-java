@@ -18,12 +18,20 @@ import com.example.whiteboardfall2018prernapurohitserverjava.models.Course;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Lesson;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Module;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
+import com.example.whiteboardfall2018prernapurohitserverjava.repositories.LessonRepository;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
 public class LessonService {
 	@Autowired
 	UserService userService;
+	@Autowired
+	LessonRepository lessonRepository;
+	@GetMapping("/api/lesson")
+	public List<Lesson> findAllLessons() {
+		return (List<Lesson>) lessonRepository.findAll();
+	}
 	int userId,courseId,moduleId;
 	
 	@GetMapping("/api/course/{cid}/module/{mid}/lesson")
