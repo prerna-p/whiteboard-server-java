@@ -6,7 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Lesson {
@@ -15,6 +18,16 @@ public class Lesson {
 	private int id;
 	
 	private String title;
+	@ManyToOne
+	@JsonIgnore
+	private Module module;
+	public Module getModule() {
+		return module;
+	}
+	public void setModule(Module module) {
+		this.module = module;
+	}
+	
 	@OneToMany(mappedBy="lesson")
 	private List<Topic> topics = new ArrayList<Topic>();
 	public List<Topic> getTopics() {

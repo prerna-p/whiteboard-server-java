@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -17,8 +18,15 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName;
-	private List<Course> courses = new ArrayList<Course>();
-
+	
+	@OneToMany(mappedBy="user")
+	private List<Course> courses;
+	public List<Course> getCourses() {
+		return courses;
+	}
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
 	public User() {}
 	public User(String username) {
 		this.username = username;
@@ -32,14 +40,6 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-
-	public List<Course> getCourses() {
-		return courses;
-	}
-	public void setCourses(List<Course> courses) {
-		this.courses = courses;
-	}
-
 	public int getId() {
 		return id;
 	}
