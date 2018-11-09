@@ -16,6 +16,7 @@ public class Widget {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String title;
+	private String text;
 	@ManyToOne()
 	@JsonIgnore
 	private Topic topic;
@@ -41,5 +42,11 @@ public class Widget {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
 	}
 }
