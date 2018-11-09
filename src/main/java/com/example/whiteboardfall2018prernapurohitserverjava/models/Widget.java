@@ -10,13 +10,30 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Widget {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String title;
 	private String text;
+	private int headingValue;
+	private String options;
+	private String link;
+	private int widgetsOrder;
+	
+	public String getOptions() {
+		return options;
+	}
+	public void setOptions(String options) {
+		this.options = options;
+	}
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
 	@ManyToOne()
 	@JsonIgnore
 	private Topic topic;
@@ -26,7 +43,12 @@ public class Widget {
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
-	
+	public int getHeadingValue() {
+		return headingValue;
+	}
+	public void setHeadingValue(int headingValue) {
+		
+	}
 	public Widget() {}
 	public Widget(String title) {
 		this.title = title;
@@ -48,5 +70,11 @@ public class Widget {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	public int getWidgetOrder() {
+		return widgetsOrder;
+	}
+	public void setWidgetOrder(int widgetOrder) {
+		this.widgetsOrder = widgetOrder;
 	}
 }

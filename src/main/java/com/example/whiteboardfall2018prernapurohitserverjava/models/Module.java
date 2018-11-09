@@ -22,7 +22,7 @@ public class Module {
 	@JsonIgnore
 	private Course course;
 	@OneToMany(mappedBy="module")
-	private List<Lesson> lessons;
+	private List<Lesson> lessons =  new ArrayList<Lesson>();;
 	
 	public List<Lesson> getLessons() {
 		return lessons;

@@ -26,7 +26,7 @@ public class Course {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
 	@OneToMany(mappedBy="course")
-	private List<Module> modules;
+	private List<Module> modules = new ArrayList<Module>();;
 	@ManyToOne
 	@JsonIgnore
 	private User user;
