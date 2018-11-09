@@ -1,5 +1,7 @@
 package com.example.whiteboardfall2018prernapurohitserverjava.models;
+import javax.persistence.Entity;
 
+@Entity
 public class ListWidget extends Widget{
 	private String options;
 	public String getOptions() {

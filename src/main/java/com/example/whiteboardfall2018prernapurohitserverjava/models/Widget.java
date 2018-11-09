@@ -6,8 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Widget {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
