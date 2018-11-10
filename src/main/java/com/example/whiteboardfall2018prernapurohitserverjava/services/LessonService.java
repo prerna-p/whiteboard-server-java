@@ -18,7 +18,9 @@ import com.example.whiteboardfall2018prernapurohitserverjava.models.Course;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Lesson;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Module;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
+import com.example.whiteboardfall2018prernapurohitserverjava.models.Widget;
 import com.example.whiteboardfall2018prernapurohitserverjava.repositories.LessonRepository;
+import com.example.whiteboardfall2018prernapurohitserverjava.repositories.ModuleRepository;
 
 
 @RestController
@@ -28,6 +30,8 @@ public class LessonService {
 	UserService userService;
 	@Autowired
 	LessonRepository lessonRepository;
+	@Autowired
+	ModuleRepository moduleRepository;
 	@GetMapping("/api/lesson")
 	public List<Lesson> findAllLessons() {
 		return (List<Lesson>) lessonRepository.findAll();
@@ -35,6 +39,72 @@ public class LessonService {
 	int userId,courseId,moduleId;
 	
 	@GetMapping("/api/course/{cid}/module/{mid}/lesson")
+	public List<Lesson> findLessonsForCourseId(
+			@PathVariable("cid") int courseId,
+			@PathVariable("mid") int moduleId,
+			HttpSession session) {
+		return moduleRepository.findById(moduleId).get().getLessons();
+	}
+	
+	@GetMapping("/api/module/{mid}/lesson")
+	public List<Lesson> findAllLessons(
+			@PathVariable("moduleId") int moduleId,
+			HttpSession session) {
+		return moduleRepository.findById(moduleId).get().getLessons();
+	}
+	
+	@PostMapping("/api/module/{mid}/lesson")
+	public List<Lesson> createLesson(
+			@PathVariable("mid") int midId,
+			@RequestBody Lesson lesson,
+			HttpSession session) {
+		
+		Module module = moduleRepository.findById(midId).get();
+		if(module != null) {
+			lesson.setModule(module);
+			lessonRepository.save(lesson);
+			return module.getLessons();
+		}
+		return null;
+	}
+	
+	@GetMapping("/api/lesson/{lid}")
+	public Lesson findLessonById(
+			@PathVariable("lid") int lessonId,
+			HttpSession session) {
+		return lessonRepository.findById(lessonId).get();
+	}
+	
+	@PutMapping("/api/lesson/{lid}")
+	public List<Lesson> updateLesson(
+			@PathVariable("lid") int lessonId,
+			@RequestBody Lesson newLesson,
+			HttpSession session){
+		Lesson data = lessonRepository.findById(lessonId).get(); //find lesson
+		if(data != null) {
+			data.setTitle(newLesson.getTitle()); //update lesson title
+			data.setTopics(newLesson.getTopics()); //update topics for lesson
+			lessonRepository.save(data);			// save to repo
+			return data.getModule().getLessons();  //return all lessons for module
+		}
+		else {
+			return null;
+		}
+		
+	}
+	
+	@DeleteMapping("/api/lesson/{lid}")
+	public List<Lesson> deleteLesson(
+			@PathVariable("lid") int lessonId,
+			HttpSession session) {
+		
+		Module moduleForLesson = lessonRepository.findById(lessonId).get().getModule();
+		lessonRepository.deleteById(lessonId);
+		return moduleForLesson.getLessons();
+		
+	}
+/*	
+ * 	@GetMapping("/api/course/{cid}/module/{mid}/lesson")
 	public List<Lesson> findLessonsForCourseId(
 			@PathVariable("cid") int courseId,
 			@PathVariable("mid") int moduleId,
@@ -54,7 +124,7 @@ public class LessonService {
 		return null;
 	}
 	
-	@GetMapping("/api/module/{mid}/lesson")
+ * 	@GetMapping("/api/module/{mid}/lesson")
 	public List<Lesson> findAllLessons(
 			@PathVariable("moduleId") int moduleId,
 			HttpSession session) {
@@ -71,7 +141,7 @@ public class LessonService {
 		return lessons;
 	}
 	
-	@PostMapping("/api/module/{mid}/lesson")
+ * 	@PostMapping("/api/module/{mid}/lesson")
 	public List<Lesson> createLesson(
 			@PathVariable("mid") int midId,
 			@RequestBody Lesson lesson,
@@ -90,7 +160,7 @@ public class LessonService {
 		return lessons;
 	}
 	
-	@GetMapping("/api/lesson/{lid}")
+ * 	@GetMapping("/api/lesson/{lid}")
 	public Lesson findLessonById(
 			@PathVariable("lid") int lessonId,
 			HttpSession session) {
@@ -107,8 +177,7 @@ public class LessonService {
 
 		return null;
 	}
-	
-	@PutMapping("/api/lesson/{lid}")
+ * 	@PutMapping("/api/lesson/{lid}")
 	public List<Lesson> updateLesson(
 			@PathVariable("lid") int lessonId,
 			@RequestBody Lesson newLesson,
@@ -133,7 +202,7 @@ public class LessonService {
 		
 	}
 	
-	@DeleteMapping("/api/lesson/{lid}")
+    @DeleteMapping("/api/lesson/{lid}")
 	public List<Lesson> deleteLesson(
 			@PathVariable("lid") int lessonId,
 			HttpSession session) {
@@ -154,5 +223,5 @@ public class LessonService {
 		myLessons.remove(old);
 		return myLessons;
 		
-	}
+	}*/
 }

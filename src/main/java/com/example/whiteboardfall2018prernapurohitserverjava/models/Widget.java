@@ -15,13 +15,26 @@ public class Widget {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private String title;
-	private String text;
-	private int headingValue;
-	private String options;
-	private String link;
-	private int widgetsOrder;
+	private String title; //widget title
+	private String text; //for widget body text
+	private int headingValue; //for heading size
+	private String options; //list type
+	private String link; //for image
+	private int widgetsOrder; //for move-up move-down
+	private String widgetType; //for widget type
 	
+	public int getWidgetsOrder() {
+		return widgetsOrder;
+	}
+	public void setWidgetsOrder(int widgetsOrder) {
+		this.widgetsOrder = widgetsOrder;
+	}
+	public String getWidgetType() {
+		return widgetType;
+	}
+	public void setWidgetType(String widgetType) {
+		this.widgetType = widgetType;
+	}
 	public String getOptions() {
 		return options;
 	}
@@ -70,11 +83,5 @@ public class Widget {
 	}
 	public void setText(String text) {
 		this.text = text;
-	}
-	public int getWidgetOrder() {
-		return widgetsOrder;
-	}
-	public void setWidgetOrder(int widgetOrder) {
-		this.widgetsOrder = widgetOrder;
 	}
 }

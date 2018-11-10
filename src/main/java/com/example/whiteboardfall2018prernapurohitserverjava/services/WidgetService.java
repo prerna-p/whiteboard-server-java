@@ -3,17 +3,18 @@ package com.example.whiteboardfall2018prernapurohitserverjava.services;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.whiteboardfall2018prernapurohitserverjava.models.Course;
-import com.example.whiteboardfall2018prernapurohitserverjava.models.Lesson;
-import com.example.whiteboardfall2018prernapurohitserverjava.models.Module;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Topic;
-import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Widget;
 import com.example.whiteboardfall2018prernapurohitserverjava.repositories.WidgetRepository;
+
+
 import com.example.whiteboardfall2018prernapurohitserverjava.repositories.TopicRepository;
 
 @RestController
@@ -28,45 +29,46 @@ public class WidgetService {
 	@Autowired
 	TopicRepository topicRepository;
 	
-	@GetMapping("/api/topic/{topicId}/widget")
+/*	@GetMapping("/api/topic/{topicId}/widget")
 	public List<Widget> findWidgetsForTopic(
 			@PathVariable("topicId") int topicId) {
 		return (List<Widget>)
 				topicRepository.findById(topicId)
 				.get().getWidgets();
-	}
+	}*/
 	
 	@GetMapping("/api/widget")
 	public List<Widget> findAllWidgets() {
 		return (List<Widget>) widgetRepository.findAll();
 	}
 	
+	@GetMapping("/api/widget/{wid}")
+	public Widget findWidgetById(@PathVariable("wid") int widgetId) {
+		return widgetRepository.findById(widgetId).get();
+	}
 	
-	@GetMapping("/api/user/{userId}/course/{courseId}/module/{moduleId}/lesson/{lessonId}/topic/{topicId}/widget")
-	public List<Widget> findWidgetForTopic(
-			@PathVariable("userId") int userId,
-			@PathVariable("courseId") int courseId,
-			@PathVariable("moduleId") int moduleId,
-			@PathVariable("lessonId") int lessonId,
-			@PathVariable("topicId") int topicId) {
-		User user = userService.findUserById(userId);
-		for(Course course: user.getCourses()) {
-			if(course.getId() == courseId) {
-				for(Module module: course.getModules()) {
-					if(module.getId() == moduleId) {
-						for(Lesson lesson: module.getLessons()) {
-							if(lesson.getId() == lessonId) {
-								for(Topic topic: lesson.getTopics()) {
-									if(topic.getId() == topicId) {
-										return topic.getWidgets();
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+	@PutMapping("/api/widget/{wid}")
+	public Widget updateWidget(@PathVariable("wid") int widgetId,
+			@RequestBody Widget widget) {
+		Widget data = widgetRepository.findById(widgetId).get();
+		if(data != null) {
+			data.setHeadingValue(widget.getHeadingValue());
+			data.setLink(widget.getLink());
+			data.setText(widget.getText());
+			data.setTopic(widget.getTopic());
+			data.setWidgetsOrder(widget.getWidgetsOrder());
+			data.setWidgetType(widget.getWidgetType());
+			return data;
 		}
-		return null;
+		else {
+			return null;
+		}
+	}
+	
+	@DeleteMapping("/api/widget/{wid}")
+	public List<Widget> deleteWidget(@PathVariable("wid") int widgetId){
+		Topic topic = widgetRepository.findById(widgetId).get().getTopic();
+		widgetRepository.deleteById(widgetId);
+		return topic.getWidgets();
 	}
 }
