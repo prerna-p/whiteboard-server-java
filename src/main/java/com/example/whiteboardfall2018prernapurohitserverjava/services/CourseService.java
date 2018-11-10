@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.whiteboardfall2018prernapurohitserverjava.models.Course;
 import com.example.whiteboardfall2018prernapurohitserverjava.models.User;
+import com.example.whiteboardfall2018prernapurohitserverjava.repositories.CourseRepository;
+import com.example.whiteboardfall2018prernapurohitserverjava.repositories.UserRepository;
 
 @RestController
 //@CrossOrigin(origins = "*")
@@ -28,17 +30,70 @@ public class CourseService {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	CourseRepository courseRepository;
+	
+	@Autowired
+	UserRepository userRepository;
+	
 	List<Course> courses = null;
 	
 	@GetMapping("/api/user/{userId}/course")
+	public List<Course> findAllCourses(@PathVariable("userId") int userId,
+			HttpSession session) {
+		return userRepository.findById(userId).get().getCourses();
+	}
+	
+	@PostMapping("/api/user/{userId}/course")
+	public List<Course> createCourse(
+			@PathVariable("userId") int userId,
+			@RequestBody Course course){
+		courseRepository.save(course);
+		return userRepository.findById(userId).get().getCourses();
+	}
+	
+	@GetMapping("/api/user/{userId}/course/{cid}")
+	public Course findCourseById(
+			@PathVariable("userId") int userId,
+			@PathVariable("cid") int courseId) {
+		
+		return courseRepository.findById(courseId).get();
+	}
+	
+	@PutMapping("/api/user/{userId}/course/{cid}")
+	public List<Course> updateCourse(
+			@PathVariable("userId") int userId,
+			@PathVariable("cid") int courseId,
+			@RequestBody Course newCourse) {
+		
+		Course course = courseRepository.findById(courseId).get();
+		if(course!=null) {
+			course.setTitle(newCourse.getTitle());
+			course.setModules(newCourse.getModules());
+			return course.getUser().getCourses();
+		}
+		return null;
+	}
+	
+	@DeleteMapping("/api/user/{userId}/course/{cid}")
+	public List<Course> deleteCourse(
+			@PathVariable("userId") int userId,
+			@PathVariable("cid") int courseId) {
+		
+		User user = courseRepository.findById(courseId).get().getUser();
+		courseRepository.deleteById(courseId);
+		return user.getCourses();
+	}
+}
+
+/* 	@GetMapping("/api/user/{userId}/course")
 	public List<Course> findAllCourses(@PathVariable("userId") int userId,
 			HttpSession session) {
 		 User currentUser = (User)session.getAttribute("currentUser");
 	    return currentUser.getCourses();
 	   
 	}
-
-	@PostMapping("/api/user/{userId}/course")
+ *  @PostMapping("/api/user/{userId}/course")
 	public List<Course> createCourse(
 			@PathVariable("userId") int userId,
 			@RequestBody Course course){
@@ -46,8 +101,7 @@ public class CourseService {
 		user.getCourses().add(course);
 		return user.getCourses();
 	}
-	
-	@GetMapping("/api/user/{userId}/course/{cid}")
+ * @GetMapping("/api/user/{userId}/course/{cid}")
 	public Course findCourseById(
 			@PathVariable("userId") int userId,
 			@PathVariable("cid") int courseId) {
@@ -61,7 +115,7 @@ public class CourseService {
 		return null;
 	}
 	
-	@PutMapping("/api/user/{userId}/course/{cid}")
+ * 	@PutMapping("/api/user/{userId}/course/{cid}")
 	public List<Course> updateCourse(
 			@PathVariable("userId") int userId,
 			@PathVariable("cid") int courseId,
@@ -75,7 +129,7 @@ public class CourseService {
 		
 	}
 	
-	@DeleteMapping("/api/user/{userId}/course/{cid}")
+ * @DeleteMapping("/api/user/{userId}/course/{cid}")
 	public List<Course> deleteCourse(
 			@PathVariable("userId") int userId,
 			@PathVariable("cid") int courseId) {
@@ -97,4 +151,5 @@ public class CourseService {
 		return courses;
 		
 	}
-}
+	
+*/

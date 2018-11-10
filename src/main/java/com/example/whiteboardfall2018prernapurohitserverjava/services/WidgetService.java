@@ -56,7 +56,7 @@ public class WidgetService {
 			data.setLink(widget.getLink());
 			data.setText(widget.getText());
 			data.setTopic(widget.getTopic());
-			data.setWidgetsOrder(widget.getWidgetsOrder());
+			//data.setWidgetsOrder(widget.getWidgetsOrder());
 			data.setWidgetType(widget.getWidgetType());
 			return data;
 		}

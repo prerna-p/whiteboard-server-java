@@ -20,15 +20,15 @@ public class Widget {
 	private int headingValue; //for heading size
 	private String options; //list type
 	private String link; //for image
-	private int widgetsOrder; //for move-up move-down
+	//private int widgetsOrder; //for move-up move-down
 	private String widgetType; //for widget type
 	
-	public int getWidgetsOrder() {
+/*	public int getWidgetsOrder() {
 		return widgetsOrder;
 	}
 	public void setWidgetsOrder(int widgetsOrder) {
 		this.widgetsOrder = widgetsOrder;
-	}
+	}*/
 	public String getWidgetType() {
 		return widgetType;
 	}
