@@ -65,7 +65,8 @@ public class UserService {
 	@GetMapping("/api/profile")
 	public User profile(HttpSession session, HttpServletRequest request) {
 		User currentUser = (User)newSession.getAttribute("currentUser");
-		return currentUser;
+		return userRepository.findById(currentUser.getId()).get();
+
 	}
 	
 	@PostMapping("/api/logout")
@@ -77,13 +78,14 @@ public class UserService {
 	public User login(
 			@RequestBody User credentials,
 			HttpSession session) {
-		
+		System.out.println(credentials.getUsername());
+		System.out.println(credentials.getPassword());
 		String username = credentials.getUsername();
 		String password = credentials.getPassword();
 		if(userRepository.findByUsername(username).size() == 1) {
 			User user = userRepository.findByUsername(username).get(0);
-			if(user.getPassword() == password) {
-				session.setAttribute("currentUser", user.getId());
+			if(user.getPassword().equals(password)) {
+				session.setAttribute("currentUser", user);
 				newSession = session;
 				return user;
 			}

@@ -70,6 +70,7 @@ public class CourseService {
 		if(course!=null) {
 			course.setTitle(newCourse.getTitle());
 			course.setModules(newCourse.getModules());
+			courseRepository.save(course);
 			return course.getUser().getCourses();
 		}
 		return null;

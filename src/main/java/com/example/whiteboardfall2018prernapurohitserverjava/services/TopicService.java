@@ -81,6 +81,7 @@ public class TopicService {
 			Lesson lesson = lessonForTopic.get();
 			topic.setLesson(lesson);
 			topicRepository.save(topic);
+			
 			return lesson.getTopics();
 		}
 		return null;
@@ -114,14 +115,17 @@ public class TopicService {
 			@RequestBody Widget widget){
 		
 		Optional<Topic> topicForWidget = topicRepository.findById(topicId);
-		if(!topicForWidget.isPresent()) {
+		if(topicForWidget.isPresent()) {
 			Topic topic = topicForWidget.get();
+			widget.setTopic(topic);
 			List<Widget> widList = topic.getWidgets();
 			widList.add(widget);
 			topic.setWidgets(widList);
 			topicRepository.save(topic);
+			widgetRepository.save(widget);
 			return widList;
 		}
+		
 		return null;
 	}
 

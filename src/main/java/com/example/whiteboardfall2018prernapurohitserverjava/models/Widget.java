@@ -21,7 +21,7 @@ public class Widget {
 	private String options; //list type
 	private String link; //for image
 	//private int widgetsOrder; //for move-up move-down
-	private String widgetType; //for widget type
+	private String widgetType = "HEADING"; //for widget type
 	
 /*	public int getWidgetsOrder() {
 		return widgetsOrder;

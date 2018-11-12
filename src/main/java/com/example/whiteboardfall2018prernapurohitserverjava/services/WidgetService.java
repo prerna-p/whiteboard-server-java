@@ -48,17 +48,19 @@ public class WidgetService {
 	}
 	
 	@PutMapping("/api/widget/{wid}")
-	public Widget updateWidget(@PathVariable("wid") int widgetId,
+	public List<Widget> updateWidget(@PathVariable("wid") int widgetId,
 			@RequestBody Widget widget) {
 		Widget data = widgetRepository.findById(widgetId).get();
+		Topic topic = widgetRepository.findById(widgetId).get().getTopic();
 		if(data != null) {
+			data.setTitle(widget.getTitle());
 			data.setHeadingValue(widget.getHeadingValue());
+			data.setOptions(widget.getOptions());
 			data.setLink(widget.getLink());
 			data.setText(widget.getText());
-			data.setTopic(widget.getTopic());
-			//data.setWidgetsOrder(widget.getWidgetsOrder());
 			data.setWidgetType(widget.getWidgetType());
-			return data;
+			widgetRepository.save(data);
+			return topic.getWidgets();
 		}
 		else {
 			return null;
