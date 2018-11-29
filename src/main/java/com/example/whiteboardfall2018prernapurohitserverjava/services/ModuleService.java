@@ -23,7 +23,7 @@ import com.example.whiteboardfall2018prernapurohitserverjava.repositories.Module
 
 @RestController
 
-@CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
+@CrossOrigin(origins = "*" , allowCredentials = "true" , allowedHeaders = "*")
 public class ModuleService {
 	@Autowired
 	CourseService courseService;

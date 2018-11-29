@@ -18,7 +18,7 @@ import com.example.whiteboardfall2018prernapurohitserverjava.repositories.Widget
 import com.example.whiteboardfall2018prernapurohitserverjava.repositories.TopicRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
+@CrossOrigin(origins = "*" , allowCredentials = "true" , allowedHeaders = "*")
 public class WidgetService {
 	@Autowired
 	UserService userService;

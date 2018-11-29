@@ -21,7 +21,7 @@ import com.example.whiteboardfall2018prernapurohitserverjava.repositories.UserRe
 
 @RestController
 //@CrossOrigin(origins = "*")
-@CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
+@CrossOrigin(origins = "*" , allowCredentials = "true" , allowedHeaders = "*")
 public class CourseService {
 
 	int userId;

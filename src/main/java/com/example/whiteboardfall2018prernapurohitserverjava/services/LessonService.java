@@ -24,7 +24,7 @@ import com.example.whiteboardfall2018prernapurohitserverjava.repositories.Module
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
+@CrossOrigin(origins = "*" , allowCredentials = "true" , allowedHeaders = "*")
 public class LessonService {
 	@Autowired
 	UserService userService;
@@ -48,7 +48,7 @@ public class LessonService {
 	
 	@GetMapping("/api/module/{mid}/lesson")
 	public List<Lesson> findAllLessons(
-			@PathVariable("moduleId") int moduleId,
+			@PathVariable("mid") int moduleId,
 			HttpSession session) {
 		return moduleRepository.findById(moduleId).get().getLessons();
 	}

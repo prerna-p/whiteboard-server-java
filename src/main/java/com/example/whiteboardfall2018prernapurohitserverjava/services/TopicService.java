@@ -27,7 +27,7 @@ import com.example.whiteboardfall2018prernapurohitserverjava.repositories.TopicR
 import com.example.whiteboardfall2018prernapurohitserverjava.repositories.WidgetRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true" , allowedHeaders = "*")
+@CrossOrigin(origins = "*" , allowCredentials = "true" , allowedHeaders = "*")
 public class TopicService {
 	int userId, courseId, moduleId, lessonId;
 	
